@@ -1,16 +1,12 @@
 ---
-- name: Pull Docker Image of Calculator
+- name: Test Docker Access
   hosts: localhost
   vars:
     ansible_python_interpreter: /usr/bin/python3
   tasks:
-    - name: Pull image
-      docker_image:
-        name: brijdesaii/calculator:latest
-        source: pull
-    - name: Start docker service
-      service:
-        name: docker
-        state: started
-    - name: Running container
-      shell: docker run -it -d --name Calculator brijdesaii/calculator
+    - name: Test running docker ps
+      shell: docker ps -a
+      register: docker_ps_output # Register the output for inspection
+    - name: Print docker ps output
+      debug:
+        var: docker_ps_output.stdout_lines
